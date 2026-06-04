@@ -1,0 +1,302 @@
+:root {
+    --sidebar-width: 260px;
+    --sidebar-bg: #1e293b;
+    --sidebar-color: #94a3b8;
+    --sidebar-active-bg: #334155;
+    --sidebar-active-color: #ffffff;
+    --topbar-height: 70px;
+}
+
+body {
+    background-color: #f1f5f9;
+}
+
+/* Sidebar Wrapper */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    /* Gradasi biru muda di atas (40%) memudar ke warna gelap sidebar */
+    background: linear-gradient(180deg, #3b82f6 0%, #1e293b 40%, #1e293b 100%);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.sidebar.show {
+    transform: translateX(0);
+}
+
+.sidebar-brand {
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.sidebar-menu {
+    flex-grow: 1;
+    padding: 1rem 0;
+    overflow-y: auto;
+}
+
+.sidebar-item {
+    margin: 0.2rem 1rem;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    color: var(--sidebar-color);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.sidebar-link:hover {
+    background-color: var(--sidebar-active-bg);
+    color: var(--sidebar-active-color);
+}
+
+.sidebar-link.active {
+    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.sidebar-link i {
+    margin-right: 12px;
+    font-size: 1.1rem;
+}
+
+/* Dropdown styling */
+.sidebar-dropdown {
+    list-style: none;
+    padding-left: 2.5rem;
+    margin-top: 0.5rem;
+}
+
+.sidebar-link i.bi-chevron-down {
+    transition: transform 0.3s ease;
+    margin-right: 0;
+}
+
+.sidebar-link[aria-expanded="true"] i.bi-chevron-down {
+    transform: rotate(180deg);
+}
+
+.sidebar-dropdown-link {
+    display: block;
+    padding: 0.5rem 0;
+    color: var(--sidebar-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.sidebar-dropdown-link:hover {
+    color: var(--sidebar-active-color);
+}
+
+/* Main Content Wrapper */
+.main-wrapper {
+    margin-left: var(--sidebar-width);
+    transition: all 0.3s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Desktop styles */
+@media (min-width: 992px) {
+    .sidebar {
+        transform: none;
+        position: static;
+    }
+    .main-wrapper {
+        margin-left: 0;
+    }
+}
+
+.topbar {
+    height: var(--topbar-height);
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.content-body {
+    padding: 2rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Membuat konten di dalamnya bisa dipusatkan */
+}
+
+/* Container khusus untuk menjaga simetri konten di desktop */
+.content-container {
+    width: 100%;
+    max-width: 1400px; /* Batas lebar agar tetap simetris di layar ultra-wide */
+    margin: 0 auto;
+}
+
+/* Tournament Bracket Styles */
+.bracket-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 40px 20px;
+    overflow-x: auto;
+}
+
+.bracket-round {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    min-width: 280px;
+    flex: 1;
+}
+
+.bracket-match {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    margin: 25px 0;
+    overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.bracket-match:hover {
+    transform: translateY(-5px);
+}
+
+.bracket-team {
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.bracket-team:last-child {
+    border-bottom: none;
+}
+
+.team-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+}
+
+.team-score {
+    width: 50px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #0d6efd;
+    background: #f0f7ff;
+    border-radius: 8px;
+}
+
+.round-title {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #64748b;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Connectors */
+.bracket-match::after {
+    content: '';
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    width: 40px;
+    height: 2px;
+    background: #cbd5e1;
+    z-index: -1;
+}
+
+.bracket-round:last-child .bracket-match::after {
+    display: none;
+}
+
+/* Global Card Styling (Attractive Design) */
+.card {
+    border: none !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    padding: 1.25rem 1.5rem !important;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    .main-wrapper {
+        margin-left: 0;
+    }
+    
+    /* Prevent body scroll when sidebar is open */
+    body.sidebar-open {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+    }
+    
+    /* Overlay untuk mobile */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .sidebar-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+}

@@ -1,0 +1,197 @@
+/**
+ * PREMIMUM TOURNAMENT BRACKET DESIGN (MYSMES)
+ * Modern, Dynamic, and Responsive Bracket UI
+ */
+
+.bracket-wrapper {
+    display: flex !important;
+    gap: 0 !important;
+    padding: 60px 40px !important;
+    background: #f8fafc;
+    border-radius: 24px;
+    position: relative;
+    overflow-x: auto;
+    min-height: 600px;
+}
+
+.bracket-round {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-around !important;
+    position: relative;
+    flex: 1;
+    min-width: 300px;
+    padding: 0 40px;
+}
+
+/* Connecting Lines Logic */
+.bracket-round:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 100%;
+    z-index: 1;
+}
+
+.round-title {
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    color: #1e293b;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 0.75rem !important;
+    padding: 6px 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+}
+
+.bracket-match {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    margin: 25px 0 !important;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    cursor: pointer;
+}
+
+.bracket-match:hover {
+    transform: scale(1.05) translateX(5px) !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1) !important;
+    border-color: #0d6efd !important;
+}
+
+/* Horizontal connectors */
+.bracket-match::after {
+    content: "";
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    width: 40px;
+    height: 2px;
+    background: #cbd5e1;
+    z-index: 0;
+}
+
+.bracket-round:last-child .bracket-match::after,
+.bracket-round:nth-last-child(2) .bracket-match::after {
+    display: none;
+}
+
+.bracket-team {
+    padding: 16px 20px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.bracket-team:first-child {
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.team-name {
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #334155;
+    max-width: 160px;
+}
+
+.team-score {
+    background: #f8fafc !important;
+    color: #64748b !important;
+    font-weight: 800 !important;
+    font-size: 1rem !important;
+    width: 36px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 8px !important;
+    border: 1px solid #e2e8f0;
+}
+
+.bracket-match:hover .team-score {
+    background: #eff6ff !important;
+    color: #2563eb !important;
+    border-color: #bfdbfe;
+}
+
+/* Winner Styles */
+.winner-highlight {
+    background-color: #f0fdf4 !important;
+}
+
+.winner-highlight .team-name {
+    color: #15803d !important;
+    font-weight: 800 !important;
+}
+
+.winner-highlight .team-score {
+    background: #22c55e !important;
+    color: white !important;
+    border-color: #16a34a;
+}
+
+/* Champion Card */
+.champion-card {
+    position: relative;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+    border: 2px solid #fbbf24 !important;
+    color: white !important;
+    padding: 40px 30px !important;
+    border-radius: 24px !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+    overflow: hidden;
+}
+
+.champion-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+    opacity: 0.2;
+}
+
+.champion-card i {
+    filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.6));
+}
+
+.winner-name {
+    color: #fbbf24 !important;
+    font-size: 1.5rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+/* Scrollbar Styling */
+.card-body::-webkit-scrollbar {
+    height: 8px;
+}
+.card-body::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+.card-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+.card-body::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
