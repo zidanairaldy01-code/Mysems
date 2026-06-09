@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('registrations', function (Blueprint $table) {
-            //
+            // Menambahkan kolom order_id setelah kolom id
+            $table->string('order_id')->nullable()->after('id');
         });
     }
 
@@ -22,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('registrations', function (Blueprint $table) {
-            //
+            // Menghapus kolom order_id jika rollback
+            $table->dropColumn('order_id');
         });
     }
 };
