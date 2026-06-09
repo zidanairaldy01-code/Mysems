@@ -13,7 +13,7 @@
                 <div class="row align-items-center">
                     <div class="col-12 col-md-8">
                         <h2 class="fw-bold mb-2">Selamat Datang di MySEMS!</h2>
-                        <p class="mb-4 opacity-75 fs-5">Platform resmi manajemen event sekolah. Temukan dan ikuti event sekolah terbaik untuk mengembangkan bakatmu!</p>
+                        <p class="mb-4 opacity-75 fs-5">Platform resmi manajemen event sekolah. Temukan dan ikuti event sekolah dan seminar terbaik untuk mengembangkan bakatmu!</p>
                         <a href="{{ route('public.event.index') }}" class="btn btn-light text-primary fw-bold px-4 py-2 rounded-pill shadow-sm">Lihat Event Sekolah</a>
                     </div>
                     <div class="col-12 col-md-4 text-center mt-4 mt-md-0">
