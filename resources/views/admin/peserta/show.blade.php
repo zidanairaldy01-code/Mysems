@@ -37,6 +37,19 @@
                     <label class="text-muted small fw-bold d-block mb-1">Tanggal Terdaftar</label>
                     <p class="fw-semibold">{{ $peserta->created_at->format('d F Y, H:i') }}</p>
                 </div>
+                <div class="col-md-6">
+                    <label class="text-muted small fw-bold d-block mb-1">Status Keikutsertaan</label>
+                    <p class="fw-semibold">
+                        @if($peserta->event_participation_status === 'Sudah Mengikuti Event')
+                            <span class="badge bg-success rounded-pill px-3">Sudah Mengikuti Event</span>
+                        @else
+                            <span class="badge bg-warning text-dark rounded-pill px-3">Belum Mengikuti Event</span>
+                        @endif
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    &nbsp;
+                </div>
                 <div class="col-12">
                     <label class="text-muted small fw-bold d-block mb-1">Alamat</label>
                     <p class="fw-semibold">{{ $peserta->alamat ?? 'Alamat belum diisi.' }}</p>

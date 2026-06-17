@@ -20,6 +20,7 @@
                         <th class="py-3 border-0">Email</th>
                         <th class="py-3 border-0">No. HP</th>
                         <th class="py-3 border-0">Tgl Bergabung</th>
+                        <th class="py-3 border-0">Status Keikutsertaan</th>
                         <th class="pe-4 py-3 border-0 text-end">Aksi</th>
                     </tr>
                 </thead>
@@ -35,6 +36,13 @@
                         <td>{{ $peserta->email }}</td>
                         <td>{{ $peserta->hp ?? '-' }}</td>
                         <td>{{ $peserta->created_at->format('d M Y') }}</td>
+                        <td>
+                            @if($peserta->event_participation_status === 'Sudah Mengikuti Event')
+                                <span class="badge bg-success rounded-pill px-3">Sudah Mengikuti Event</span>
+                            @else
+                                <span class="badge bg-warning text-dark rounded-pill px-3">Belum Mengikuti Event</span>
+                            @endif
+                        </td>
                         <td class="pe-4 text-end">
                             <div class="dropdown">
                                 <button class="btn btn-light btn-sm rounded-circle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -62,7 +70,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center py-5 text-muted">
+                        <td colspan="6" class="text-center py-5 text-muted">
                             <i class="bi bi-people fs-1 d-block mb-2"></i>
                             Belum ada data peserta.
                         </td>

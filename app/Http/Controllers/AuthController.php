@@ -11,44 +11,62 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
-        return view('auth.login');
+        $num1 = rand(1, 9);
+        $num2 = rand(1, 9);
+        session(['captcha_answer' => $num1 + $num2]);
+
+        return view('auth.login', compact('num1', 'num2'));
     }
 
     public function login(Request $request)
     {
         // 1. Validasi input wajib diisi
         $request->validate([
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required',
+            'captcha'  => 'required|integer',
         ], [
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'password.required' => 'Password wajib diisi.'
+            'email.required'    => 'Email wajib diisi.',
+            'email.email'       => 'Format email tidak valid.',
+            'password.required' => 'Password wajib diisi.',
+            'captcha.required'  => 'Jawaban CAPTCHA wajib diisi.',
+            'captcha.integer'   => 'Jawaban CAPTCHA harus berupa angka.',
         ]);
 
-        // 2. Cek apakah email ada di database
+        // 2. Validasi jawaban CAPTCHA matematika
+        if ((int) $request->captcha !== (int) session('captcha_answer')) {
+            // Regenerasi angka baru agar tidak bisa ditebak ulang
+            $num1 = rand(1, 9);
+            $num2 = rand(1, 9);
+            session(['captcha_answer' => $num1 + $num2]);
+
+            return back()
+                ->withInput($request->only('email'))
+                ->withErrors(['captcha' => 'Jawaban CAPTCHA matematika salah. Silakan coba lagi.'])
+                ->with(['captcha_num1' => $num1, 'captcha_num2' => $num2]);
+        }
+
+        // 3. Cek apakah email ada di database
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            // Jika email tidak ditemukan
             return back()->withInput($request->only('email'))->withErrors([
                 'email' => 'Email salah'
             ]);
         }
 
-        // 3. Cek apakah password sesuai dengan email yang ditemukan
+        // 4. Cek apakah password sesuai dengan email yang ditemukan
         if (!Hash::check($request->password, $user->password)) {
-            // Jika password salah
             return back()->withInput($request->only('email'))->withErrors([
                 'password' => 'Password salah'
             ]);
         }
 
-        // 4. Jika berhasil, buat session login
+        // 5. Jika berhasil, buat session login
         Auth::login($user, $request->has('remember'));
         $request->session()->regenerate();
 
-        // 5. Redirect berdasarkan role
+        // 6. Redirect berdasarkan role
         if ($user->role === '1') {
             return redirect()->intended('admin/index');
         } elseif ($user->role === '0') {

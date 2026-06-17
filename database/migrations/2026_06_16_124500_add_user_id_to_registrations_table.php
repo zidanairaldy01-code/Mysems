@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('registrations', function (Blueprint $table) {
-            if (!Schema::hasColumn('registrations', 'order_id')) {
-                // Menambahkan kolom order_id setelah kolom id
-                $table->string('order_id')->nullable()->after('id');
+            if (!Schema::hasColumn('registrations', 'user_id')) {
+                $table->unsignedBigInteger('user_id')->nullable()->after('event_id');
             }
         });
     }
@@ -25,9 +24,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('registrations', function (Blueprint $table) {
-            if (Schema::hasColumn('registrations', 'order_id')) {
-                // Menghapus kolom order_id jika rollback
-                $table->dropColumn('order_id');
+            if (Schema::hasColumn('registrations', 'user_id')) {
+                $table->dropColumn('user_id');
             }
         });
     }

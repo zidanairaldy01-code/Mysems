@@ -21,6 +21,7 @@
                         <th class="py-3 border-0">Asal Sekolah/Instansi</th>
                         <th class="py-3 border-0">Nomor HP</th>
                         <th class="py-3 border-0">Email</th>
+                        <th class="py-3 border-0">Status Keikutsertaan</th>
                         <th class="pe-4 py-3 border-0 text-end">Aksi</th>
                     </tr>
                 </thead>
@@ -36,13 +37,20 @@
                         <td>{{ $peserta->asal_sekolah ?? '-' }}</td>
                         <td>{{ $peserta->nomor_hp ?? '-' }}</td>
                         <td>{{ $peserta->email }}</td>
+                        <td>
+                            @if($peserta->event_participation_status === 'Sudah Mengikuti Event')
+                                <span class="badge bg-success rounded-pill px-3">Sudah Mengikuti Event</span>
+                            @else
+                                <span class="badge bg-warning text-dark rounded-pill px-3">Belum Mengikuti Event</span>
+                            @endif
+                        </td>
                         <td class="pe-4 text-end">
                             <a href="{{ route('panitia.peserta.show', $peserta->id) }}" class="btn btn-sm btn-light rounded-pill px-3">Detail</a>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center py-5 text-muted">Belum ada data peserta yang terdaftar.</td>
+                        <td colspan="6" class="text-center py-5 text-muted">Belum ada data peserta yang terdaftar.</td>
                     </tr>
                     @endforelse
                 </tbody>

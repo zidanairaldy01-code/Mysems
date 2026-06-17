@@ -196,7 +196,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('event*') ? 'active' : '' }}" href="{{ route('public.event.index') }}">
+                        <a class="nav-link {{ request()->is('event*') ? 'active' : '' }}" href="{{ route('public.event.index') }}" id="nav-public-event">
                             <i class="bi bi-calendar-event me-1"></i> Event
                         </a>
                     </li>

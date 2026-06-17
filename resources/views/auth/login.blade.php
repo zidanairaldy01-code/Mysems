@@ -112,6 +112,33 @@
                             ini</label>
                     </div>
 
+                    <!-- Math CAPTCHA -->
+                    <div class="mb-4">
+                        <label for="captcha" class="form-label">VERIFIKASI KEAMANAN</label>
+                        @php
+                            $c1 = session('captcha_num1', $num1 ?? 0);
+                            $c2 = session('captcha_num2', $num2 ?? 0);
+                        @endphp
+                        <div class="input-group">
+                            <span class="input-group-text fw-bold text-dark" style="min-width:100px; justify-content:center; letter-spacing:1px; background:linear-gradient(135deg,#f0f4ff,#e8eeff); border-right:0;">
+                                {{ $num1 ?? $c1 }} + {{ $num2 ?? $c2 }} = ?
+                            </span>
+                            <input type="number"
+                                class="form-control @error('captcha') is-invalid @enderror"
+                                id="captcha"
+                                name="captcha"
+                                placeholder="Masukkan jawaban..."
+                                autocomplete="off"
+                                required>
+                            @error('captcha')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-1">
+                            <small class="text-muted"><i class="bi bi-shield-lock me-1"></i>Selesaikan perhitungan di atas untuk membuktikan Anda bukan robot.</small>
+                        </div>
+                    </div>
+
                     <!-- Submit Button/ini Tombol Login -->
                     <div class="d-grid">
                         <button type="submit" class="btn btn-login shadow-sm">

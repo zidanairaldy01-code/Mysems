@@ -13,7 +13,7 @@ class PesertaController extends Controller
      */
     public function index()
     {
-        $pesertas = User::where('role', '2')->latest()->get();
+        $pesertas = User::where('role', '2')->with('registrations.event')->latest()->get();
         $view = auth()->user()->role == '1' ? 'admin.peserta.index' : 'panitia.peserta.index';
         return view($view, compact('pesertas'));
     }
@@ -23,7 +23,7 @@ class PesertaController extends Controller
      */
     public function show($id)
     {
-        $peserta = User::where('role', '2')->findOrFail($id);
+        $peserta = User::where('role', '2')->with('registrations.event')->findOrFail($id);
         $rolePrefix = auth()->user()->role == '1' ? 'admin' : 'panitia';
         $layout = 'layouts.' . $rolePrefix;
         
@@ -36,6 +36,20 @@ class PesertaController extends Controller
     public function destroy($id)
     {
         $peserta = User::where('role', '2')->findOrFail($id);
+
+        // Cek apakah peserta memiliki pendaftaran di event yang belum selesai
+        $hasActiveEvent = \App\Models\Registration::where('user_id', $peserta->id)
+            ->whereHas('event', function ($query) {
+                $query->where('status', '!=', 2) // Bukan selesai
+                      ->where('status', '!=', 4) // Bukan terhapus
+                      ->where('tanggal_event', '>=', date('Y-m-d'));
+            })
+            ->exists();
+
+        if ($hasActiveEvent) {
+            return redirect()->back()->with('error', 'Peserta tidak dapat dihapus karena masih terdaftar dalam event yang belum selesai.');
+        }
+
         $peserta->delete();
 
         return redirect()->route('admin.peserta.index')->with('success', 'Peserta berhasil dihapus!');

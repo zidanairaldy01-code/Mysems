@@ -47,4 +47,30 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function registrations()
+    {
+        return $this->hasMany(Registration::class, 'user_id');
+    }
+
+    public function getEventParticipationStatusAttribute(): string
+    {
+        $registrations = $this->registrations;
+
+        if ($registrations->isEmpty()) {
+            return 'Belum Mengikuti Event';
+        }
+
+        // Cek apakah ada event yang didaftar oleh user ini yang belum selesai
+        $hasUnfinishedEvent = $registrations->contains(function ($reg) {
+            $event = $reg->event;
+            return $event && $event->status != 2 && $event->status != 4 && $event->tanggal_event >= date('Y-m-d');
+        });
+
+        if ($hasUnfinishedEvent) {
+            return 'Belum Mengikuti Event';
+        }
+
+        return 'Sudah Mengikuti Event';
+    }
 }

@@ -63,6 +63,12 @@ class RegistrationManagementController extends Controller
     public function destroy($id)
     {
         $registration = Registration::findOrFail($id);
+
+        $event = $registration->event;
+        if ($event && $event->status != 2 && $event->status != 4 && $event->tanggal_event >= date('Y-m-d')) {
+            return redirect()->back()->with('error', 'Data pendaftaran tidak dapat dihapus sebelum event selesai.');
+        }
+
         $registration->delete();
         
         return redirect()->back()->with('success', 'Data pendaftaran tim berhasil dihapus!');
